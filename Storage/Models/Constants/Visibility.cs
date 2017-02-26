@@ -1,4 +1,4 @@
-﻿namespace SD.Models.Constants
+﻿namespace Storage.Models.Constants
 {
     public enum Visibility
     {

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using SD.Models;
-using SD.Models.Constants;
+using Storage.Models.Constants;
 
-namespace SD.Models
+namespace Storage.Models
 {
     public class IssueModel
     {

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using SD.Models;
-using SD.Models.Constants;
+﻿using System.Collections.Generic;
 
-namespace SD.Models
+namespace Storage.Models
 {
     public class AgentModel
     {

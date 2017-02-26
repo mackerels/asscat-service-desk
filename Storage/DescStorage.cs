@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
-using SD.Models;
-using MySql.Data.MySqlClient;
 using Dapper;
+using MySql.Data.MySqlClient;
+using Storage.Models;
 
-namespace SD.Storage
+namespace Storage
 {
     public class DescStorage : IServiceDeskStorage
     {
 
         private readonly MySqlConnection _connection;
 
-        public DescStorage()
+        public DescStorage(string connectionString)
         {
             _connection =
-                new MySqlConnection(@"Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;");
+                new MySqlConnection(connectionString);
             _connection.Open();
         }
 

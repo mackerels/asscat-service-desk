@@ -1,7 +1,6 @@
 ﻿using System;
-using SD.Models.Constants;
 
-namespace SD.Models
+namespace Storage.Models
 {
     public class IssueMessageModel
     {

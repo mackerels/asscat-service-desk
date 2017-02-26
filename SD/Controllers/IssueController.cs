@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using SD.Storage;
+using Storage;
 
 namespace SD.Controllers
 {
@@ -10,7 +10,9 @@ namespace SD.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new DescStorage().Issues);
+            return Json(new DescStorage(
+                "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;"
+            ).Issues);
         }
     }
 }
