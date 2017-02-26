@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SD.Models;
-using SD.Storage;
 using MySql.Data.MySqlClient;
 using Dapper;
 
@@ -13,16 +8,14 @@ namespace SD.Storage
     public class DescStorage : IServiceDeskStorage
     {
 
-        private MySqlConnection _connection;
+        private readonly MySqlConnection _connection;
 
         public DescStorage()
         {
             _connection =
-                new MySqlConnection(@"Server=localhost;Port=3306;Database=2x2crm;Uid=root;Pwd=123;SslMode=None;");
+                new MySqlConnection(@"Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;");
             _connection.Open();
         }
-
-        //public IEnumerable<AgentModel> Agents => _connection.Query<AgentModel>("select Id, Name, CompanyId, Login, Password from agent");
 
         public IEnumerable<AgentModel> Agents
         {
@@ -36,7 +29,7 @@ namespace SD.Storage
                     {
                         agent.Company = company;
                         return agent;
-                    } 
+                    }
                 );
             }
         }
@@ -44,7 +37,7 @@ namespace SD.Storage
         public IEnumerable<CompanyModel> Companies => _connection.Query<CompanyModel>("select Id, Name from company");
 
         public IEnumerable<IssueModel> Issues
-        { 
+        {
             get
             {
                 const string sql = @"select issue.Id, Topic, Matter, Phone, Email, State,
@@ -103,34 +96,5 @@ namespace SD.Storage
 
             }
         }
-
-
-
-        //    =>
-        //                _connection.Query<IssueMessageModel>(
-        //                    @"select  issue_message.Id, MessageTime, Body,
-        //        issue.Id, issue.Email, issue.Matter, issue.Phone, issue.State, issue.Topic,
-        //        issueCompany.Id, issueCompany.Name,
-        //        issueOwner.Id, issueOwner.Name,
-        //        companyOwner.Id, companyOwner.Name,
-        //        resp.Id, resp.Name,
-        //        respCompany.Id, respCompany.Name,
-        //        messageAgent.Id, messageAgent.Name
-        //from issue_message
-
-        //  left join issue on issue.Id = issue_message.IssueId
-
-        //  left join company issueCompany on issueCompany.Id = issue.CompanyId
-
-        //  left join agent issueOwner on issueOwner.Id = issue.OwnerId
-        //  left join company as companyOwner on companyOwner.Id = issueOwner.CompanyId
-
-        //  left join agent resp on resp.Id = issue.ResponsibleId
-        //  left join company as respCompany on respCompany.Id = resp.CompanyId
-
-        //  left join company on company.Id = issue.CompanyId
-
-        //  left join agent messageAgent on messageAgent.Id = issue_message.AgentId
-        //  left join company messageAgentCompany on messageAgentCompany.Id = messageAgent.CompanyId");
     }
 }
