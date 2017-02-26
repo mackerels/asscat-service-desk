@@ -5,8 +5,12 @@ namespace SD.Storage
 {
     public interface IServiceDeskStorage
     {
-        IEnumerable<UserModel> Users { get; }
+        IEnumerable<AgentModel> Agents { get; }
+
+        IEnumerable<CompanyModel> Companies { get; }
+
         IEnumerable<IssueModel> Issues { get; }
-        IEnumerable<CommentModel> Comments { get; }
+
+        IEnumerable<IssueMessageModel> IssueMessages { get; }
     }
 }
