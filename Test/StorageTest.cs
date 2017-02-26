@@ -13,7 +13,7 @@ namespace Test
         public StorageTest()
         {
             const string normalConnString = "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;";
-            const string ciConnString = "Server=localhost;Port=3306;Database=circle_test;SslMode=None;";
+            const string ciConnString = "Server=localhost;Port=3306;Uid=ubuntu;Database=circle_test;SslMode=None;";
             _storage = new DescStorage(
                 Environment.GetEnvironmentVariable("CI") == "true" ? ciConnString : normalConnString
             );
