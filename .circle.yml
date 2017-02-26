@@ -1,0 +1,8 @@
+database:
+    override:
+        - mysql -u ubuntu circle_test < Storage/Scripts/dump.sql
+test:
+    override:
+        - dotnet restore
+        - cd Test
+        - dotnet test

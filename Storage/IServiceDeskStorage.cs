@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using SD.Models;
+using Storage.Models;
 
-namespace SD.Storage
+namespace Storage
 {
     public interface IServiceDeskStorage
     {
