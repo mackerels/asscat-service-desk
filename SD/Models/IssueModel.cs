@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using service_desk.Models;
 using SD.Models.Constants;
 
 namespace SD.Models
@@ -7,15 +8,28 @@ namespace SD.Models
     {
         public int Id { get; set; }
 
-        public string Name{get; set;}
+        public string Theme{get; set;}
 
-        public string Memo { get; set; }
+        public string Matter { get; set; }
+
+        public CompanyModel Company { get; set; }
+
+        public int CompanyId { get; set; }
+
+        public AgentModel Owner { get; set; }
+
+        public int OwnerId { get; set; }
+
+        public AgentModel Responsible { get; set; }
+
+        public int ResponsibleId { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
 
         public IssueStatus Status { get; set; }
 
-        public IEnumerable<CommentModel> Comments { get; set; }
-
-        public UserModel Issuer { get; set; }
-        public UserModel Worker { get; set; }
+        public IEnumerable<IssueMessageModel> IssueMessages { get; set; }
     }
 }

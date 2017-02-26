@@ -8,6 +8,8 @@ namespace SD.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
+
+
             return Json("zdarova");
         }
     }

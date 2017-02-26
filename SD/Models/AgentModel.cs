@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using service_desk.Models;
 using SD.Models.Constants;
 
 namespace SD.Models
 {
-    public class UserModel
+    public class AgentModel
     {
         public int Id { get; set; }
-        public int Name { get; set; }
-        public UserRole Role { get; set; }
+        public string Name { get; set; }
 
-        public string Email { get; set; }
-        public string Login => Email;
+        public CompanyModel CompanyModel { get; set; }
+
+        public int CompanyId { get; set; }
+
+        public string Login { get; set; }
+
         public string Password { get; set; }
 
         public IEnumerable<IssueModel> Issues { get; set; }
