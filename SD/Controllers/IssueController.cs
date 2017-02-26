@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using SD.Storage;
 
 namespace SD.Controllers
 {
@@ -8,9 +10,7 @@ namespace SD.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-
-
-            return Json("zdarova");
+            return Json(new DescStorage().Issues);
         }
     }
 }

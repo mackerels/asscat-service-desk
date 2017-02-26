@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace service_desk.Models
+namespace SD.Models
 {
     public class CompanyModel
     {

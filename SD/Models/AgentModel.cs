@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using service_desk.Models;
+using SD.Models;
 using SD.Models.Constants;
 
 namespace SD.Models
@@ -10,7 +10,7 @@ namespace SD.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public CompanyModel CompanyModel { get; set; }
+        public CompanyModel Company { get; set; }
 
         public int CompanyId { get; set; }
 

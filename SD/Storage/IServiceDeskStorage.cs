@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using service_desk.Models;
 using SD.Models;
 
 namespace SD.Storage

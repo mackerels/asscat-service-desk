@@ -1,3 +1,5 @@
+drop schema if exists 2x2CRM;
+
 create SCHEMA 2x2CRM;
 
 use `2x2CRM`;
@@ -108,7 +110,7 @@ DROP TABLE IF EXISTS `issue`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `issue` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Theme` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `Topic` varchar(255) CHARACTER SET utf8 NOT NULL,
   `Matter` varchar(255) CHARACTER SET utf8 NOT NULL,
   `CompanyId` int(11) DEFAULT NULL,
   `OwnerId` int(11) DEFAULT NULL,

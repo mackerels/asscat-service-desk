@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using service_desk.Models;
+using SD.Models;
 using SD.Models.Constants;
 
 namespace SD.Models
@@ -8,7 +8,7 @@ namespace SD.Models
     {
         public int Id { get; set; }
 
-        public string Theme{get; set;}
+        public string Topic{get; set;}
 
         public string Matter { get; set; }
 
