@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Storage;
 
 namespace SD.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class IssueController : Controller
     {
         [HttpGet]
