@@ -15,7 +15,6 @@ namespace SD.Configurations
         private readonly UserManager<AgentModel> _manager;
         private readonly IdentityOptions _options;
 
-
         public ResourceOwnerPasswordValidator(
             UserManager<AgentModel> manager,
             IOptions<IdentityOptions> optionsAccessor

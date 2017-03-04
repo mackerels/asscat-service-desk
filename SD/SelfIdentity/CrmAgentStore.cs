@@ -35,20 +35,11 @@ namespace SD.SelfIdentity
         }
 
         public override Task<AgentModel> FindByIdAsync(string userId, CancellationToken cancellationToken)
-        {
-            Console.WriteLine($"CALLED FIND BY ID WITH ID {userId}");
-            var user = _storage.Agents.FirstOrDefault(u => u.Id.ToString() == userId);
+            => Task.Run(() => _storage.Agents.FirstOrDefault(u => u.Id.ToString() == userId));
 
-            return Task.FromResult(user);
-        }
 
         public override Task<AgentModel> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
-        {
-            Console.WriteLine($"CALLED FIND BY NAME WITH NAME {normalizedUserName}");
-            var user = _storage.Agents.FirstOrDefault(u => u.Login.ToUpper() == normalizedUserName);
-
-            return Task.FromResult(user);
-        }
+            => Task.Run(() => _storage.Agents.FirstOrDefault(u => u.Login.ToUpper() == normalizedUserName));
 
         public override Task<string> GetUserIdAsync(AgentModel user, CancellationToken cancellationToken)
         {
@@ -77,6 +68,7 @@ namespace SD.SelfIdentity
 
         public override Task SetUserNameAsync(AgentModel user, string userName, CancellationToken cancellationToken)
         {
+            throw new NotImplementedException();
             user.Name = userName;
             return Task.FromResult(true);
         }
@@ -84,6 +76,7 @@ namespace SD.SelfIdentity
         public override Task SetNormalizedUserNameAsync(AgentModel user, string normalizedName,
             CancellationToken cancellationToken)
         {
+            throw new NotImplementedException();
             user.Name = normalizedName;
             return Task.FromResult(true);
         }
@@ -91,6 +84,7 @@ namespace SD.SelfIdentity
         public override Task SetPasswordHashAsync(AgentModel user, string passwordHash,
             CancellationToken cancellationToken)
         {
+            throw new NotImplementedException();
             user.Password = passwordHash;
             return Task.FromResult(true);
         }

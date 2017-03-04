@@ -73,7 +73,6 @@ namespace SD.SelfIdentity
 
         public Task<IList<UserLoginInfo>> GetLoginsAsync(T user, CancellationToken cancellationToken)
         {
-            // Just returning an empty list because I don't feel like implementing this. You should get the idea though...
             IList<UserLoginInfo> logins = new List<UserLoginInfo>();
             return Task.FromResult(logins);
         }
