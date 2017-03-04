@@ -1,15 +1,19 @@
-﻿using IdentityServer4.Services;
+﻿using System.Security.Claims;
+using IdentityServer4.Services;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using SD.Configurations;
 using SD.Models;
 using SD.Models.ExampleIdentityWithoutEF.Models;
 using SD.SelfIdentity;
+using Storage;
+using Storage.Models;
 
 namespace SD
 {
@@ -17,9 +21,17 @@ namespace SD
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            var defaultPolicy =
+                new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes("Bearer")
+                    .RequireAuthenticatedUser()
+                    .Build();
+
             services
                 .AddCors()
-                .AddMvc();
+                .AddAuthorization(opt => opt.DefaultPolicy = defaultPolicy)
+                .AddMvc(x => x.Filters.Add(new AuthorizeFilter(defaultPolicy)));
+
             services.AddIdentityServer()
                 .AddTemporarySigningCredential()
                 .AddInMemoryApiResources(ApiResources.GetApiResources())
@@ -28,15 +40,21 @@ namespace SD
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
 
-            var userStore = new UserStore();
+            var storage = new DescStorage(
+                "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;"
+            );
+
+            var userStore = new CrmAgentStore(storage);
             var roleStore = new RoleStore();
             var userPrincipalFactory = new UserPrincipalFactory();
 
-            services.AddSingleton<IUserStore<ApplicationUser>>(userStore);
+            services.AddSingleton<IUserStore<AgentModel>>(userStore);
             services.AddSingleton<IRoleStore<ApplicationRole>>(roleStore);
             services.AddSingleton<IUserClaimsPrincipalFactory<ApplicationUser>>(userPrincipalFactory);
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddSingleton<IServiceDeskStorage>(storage);
+
+            services.AddIdentity<AgentModel, ApplicationRole>()
                 .AddDefaultTokenProviders();
         }
 
@@ -48,21 +66,21 @@ namespace SD
                 .UseDeveloperExceptionPage()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseMvc()
                 .UseCors(builder => builder.AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowAnyOrigin())
                 .UseIdentityServer()
-                .UseJwtBearerAuthentication(new JwtBearerOptions
+                .UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
                 {
+                    Authority = "http://localhost:22022",
+                    RequireHttpsMetadata = false,
+                    ValidateScope = false,
                     AutomaticAuthenticate = true,
                     AutomaticChallenge = true,
-                    TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = false,
-                        ValidateLifetime = true
-                    }
-                });
+                    NameClaimType = ClaimsIdentity.DefaultNameClaimType
+                })
+                .UseIdentity()
+                .UseMvc();
         }
     }
 }

@@ -1,67 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Storage;
 using Storage.Models;
 
 namespace SD.SelfIdentity
 {
     public class CrmAgentStore : UserStore<AgentModel>
     {
-        private readonly List<AgentModel> _users;
+        private readonly IServiceDeskStorage _storage;
 
-        public CrmAgentStore()
+        public CrmAgentStore(IServiceDeskStorage storage)
         {
-            _users = new List<AgentModel>();
+            _storage = storage;
         }
 
         public override Task<IdentityResult> CreateAsync(AgentModel user, CancellationToken cancellationToken)
         {
-            user.Id = new Random().Next();
-
-            _users.Add(user);
+            throw new NotImplementedException();
 
             return Task.FromResult(IdentityResult.Success);
         }
 
         public override Task<IdentityResult> UpdateAsync(AgentModel user, CancellationToken cancellationToken)
         {
-            var match = _users.FirstOrDefault(u => u.Id == user.Id);
-            if (match != null)
-            {
-                match.Name = user.Name;
-                match.Password = user.Password;
-                match.Company = user.Company;
-
-                return Task.FromResult(IdentityResult.Success);
-            }
-            return Task.FromResult(IdentityResult.Failed());
+            throw new NotImplementedException();
         }
 
         public override Task<IdentityResult> DeleteAsync(AgentModel user, CancellationToken cancellationToken)
         {
-            var match = _users.FirstOrDefault(u => u.Id == user.Id);
-            if (match != null)
-            {
-                _users.Remove(match);
-
-                return Task.FromResult(IdentityResult.Success);
-            }
-            return Task.FromResult(IdentityResult.Failed());
+            throw new NotImplementedException();
         }
 
         public override Task<AgentModel> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            var user = _users.FirstOrDefault(u => u.Id.ToString() == userId);
+            Console.WriteLine($"CALLED FIND BY ID WITH ID {userId}");
+            var user = _storage.Agents.FirstOrDefault(u => u.Id.ToString() == userId);
 
             return Task.FromResult(user);
         }
 
         public override Task<AgentModel> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            var user = _users.FirstOrDefault(u => u.Name == normalizedUserName);
+            Console.WriteLine($"CALLED FIND BY NAME WITH NAME {normalizedUserName}");
+            var user = _storage.Agents.FirstOrDefault(u => u.Login.ToUpper() == normalizedUserName);
 
             return Task.FromResult(user);
         }
@@ -110,5 +94,7 @@ namespace SD.SelfIdentity
             user.Password = passwordHash;
             return Task.FromResult(true);
         }
+
+        public override IQueryable<AgentModel> Users => _storage.Agents.AsQueryable();
     }
 }

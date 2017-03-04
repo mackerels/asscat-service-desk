@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Storage;
+using Storage.Models;
 
 namespace SD.Controllers
 {
@@ -8,12 +12,20 @@ namespace SD.Controllers
     [Authorize]
     public class IssueController : Controller
     {
-        [HttpGet]
-        public IActionResult GetAll()
+        private readonly IServiceDeskStorage _storage;
+        private readonly UserManager<AgentModel> _manager;
+
+        public IssueController(IServiceDeskStorage storage, UserManager<AgentModel> manager)
         {
-            return Json(new DescStorage(
-                "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;"
-            ).Issues);
+            _storage = storage;
+            _manager = manager;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var user = await _manager.GetUserAsync(User);
+            return Json(_storage.Issues.Where(iss => iss.Owner.Id == user.Id));
         }
     }
 }

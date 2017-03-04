@@ -9,6 +9,8 @@
     "Microsoft.AspNetCore.Identity" : "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "IdentityServer4" : "1.2.0",
+    "IdentityServer4.AspNetIdentity" : "1.0.0",
+    "IdentityServer4.AccessTokenValidation" : "1.0.5",
     "Microsoft.NETCore.App": {
       "version": "1.1.0",
       "type": "platform"

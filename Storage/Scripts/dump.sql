@@ -47,7 +47,7 @@ CREATE TABLE `agent` (
 
 LOCK TABLES `agent` WRITE;
 /*!40000 ALTER TABLE `agent` DISABLE KEYS */;
-INSERT INTO `agent` VALUES (1,'Paul',1,'b.paul4@gmail.com','P123'),(2,'Vladimur',1,NULL,NULL),(3,'Vadim',1,NULL,NULL),(4,'Alena',1,NULL,NULL),(5,'Sasha',1,NULL,NULL),(6,'Kate',1,NULL,NULL),(7,'Jane',1,NULL,NULL),(8,'Alena',2,NULL,NULL),(9,'Elena',2,NULL,NULL);
+INSERT INTO `agent` VALUES (1,'Paul',1,'b.paul4@gmail.com','P123'),(2,'Vladimur',1,'a',NULL),(3,'Vadim',1,'b',NULL),(4,'Alena',1,'c',NULL),(5,'Sasha',1,'s',NULL),(6,'Kate',1,'d',NULL),(7,'Jane',1,'e',NULL),(8,'Alena',2,'alena1488','P123'),(9,'Elena',2,'f',NULL);
 /*!40000 ALTER TABLE `agent` ENABLE KEYS */;
 UNLOCK TABLES;
 

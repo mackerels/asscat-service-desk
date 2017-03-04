@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Storage.Models
 {
-    public class AgentModel
+    public class AgentModel : ClaimsIdentity
     {
         public int Id { get; set; }
         public string Name { get; set; }

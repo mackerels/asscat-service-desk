@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ namespace SD.SelfIdentity
     public abstract class UserStore<T> : IUserPasswordStore<T>,
         IUserLoginStore<T>,
         IUserPhoneNumberStore<T>,
+        IQueryableUserStore<T>,
         IUserTwoFactorStore<T> where T : class
     {
         public abstract Task<IdentityResult> CreateAsync(T user, CancellationToken cancellationToken);
@@ -96,5 +98,7 @@ namespace SD.SelfIdentity
         public void Dispose()
         {
         }
+
+        public abstract IQueryable<T> Users { get; }
     }
 }
