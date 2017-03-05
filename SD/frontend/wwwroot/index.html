@@ -3,8 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
-hello weird
+login: <input id="login" type="text" value="alena1488"> <br>
+password: <input id="password" type="text" value="P123"> <br>
+
+<button id="getter">get issues</button>
+<div class="issues">
+</div>
+
+<script>
+$(document).ready(() => {
+    $('#getter').click(async () => {
+    const form = new FormData();
+    form.append("grant_type", "password");
+    form.append("client_id", "crm-client");
+    form.append("client_secret", "crm-client-secret");
+    form.append("username", $('#login').val());
+    form.append("password", $('#password').val());
+
+    const settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:22022/connect/token",
+      "method": "POST",
+      "processData": false,
+      "contentType": false,
+      "mimeType": "multipart/form-data",
+      "data": form,
+      "dataType" : "json"
+    }
+
+    let result = await $.ajax(settings);
+    const token = result.access_token;
+
+    result = await $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:22022/api/issue",
+      "method": "GET",
+      "dataType": "json",
+      "headers" : {
+        "Authorization" : "Bearer " + token
+      }
+    });
+
+    const issues = $('.issues');
+
+    issues.text('');
+
+    result.forEach(iss => {
+        issues.append('<div>' +
+            'id: ' + iss.id + '<br>' +
+            'topic: ' + iss.topic + '<br>' +
+            'matter: ' + iss.matter + '<br>' +
+            '</div><br>'
+        );
+    });
+});
+});
+</script>
+
 </body>
 </html>
