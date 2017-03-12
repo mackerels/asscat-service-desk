@@ -13,6 +13,7 @@ using SD.Models;
 using SD.Models.ExampleIdentityWithoutEF.Models;
 using SD.SelfIdentity;
 using Storage;
+using Storage.Configuration;
 using Storage.Models;
 
 namespace SD
@@ -40,9 +41,7 @@ namespace SD
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
 
-            var storage = new DescStorage(
-                "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;"
-            );
+            var storage = new DescStorage(Configurator.Config["constr"]);
 
             var userStore = new CrmAgentStore(storage);
             var roleStore = new RoleStore();
