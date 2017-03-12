@@ -18,22 +18,22 @@ namespace SD.SelfIdentity
         }
 
         public override Task<IdentityResult> CreateAsync(AgentModel user, CancellationToken cancellationToken)
-        {
-            Task.Run(() => _storage.AddOrUpdateAgent(user), cancellationToken);
-            return Task.FromResult(IdentityResult.Success);
-        }
+            => Task.Run(() => 
+                    _storage.AddOrUpdateAgent(user) != null ? IdentityResult.Success : IdentityResult.Failed(),
+                cancellationToken);
+            
+        
 
         public override Task<IdentityResult> UpdateAsync(AgentModel user, CancellationToken cancellationToken)
-        {
-            Task.Run(() => _storage.AddOrUpdateAgent(user), cancellationToken);
-            return Task.FromResult(IdentityResult.Success);
-        }
+            => Task.Run(() =>
+                    _storage.AddOrUpdateAgent(user) != null ? IdentityResult.Success : IdentityResult.Failed(),
+                cancellationToken);
 
         public override Task<IdentityResult> DeleteAsync(AgentModel user, CancellationToken cancellationToken)
-        {
-            Task.Run(() => _storage.DeleteAgent(user), cancellationToken);
-            return Task.FromResult(IdentityResult.Success);
-        }
+            => Task.Run(() =>
+                    _storage.DeleteAgent(user) != null ? IdentityResult.Success : IdentityResult.Failed(),
+                 cancellationToken);
+
 
         public override Task<AgentModel> FindByIdAsync(string userId, CancellationToken cancellationToken)
             => Task.Run(() => _storage.Agents.FirstOrDefault(u => u.Id.ToString() == userId));
@@ -69,7 +69,6 @@ namespace SD.SelfIdentity
 
         public override Task SetUserNameAsync(AgentModel user, string userName, CancellationToken cancellationToken)
         {
-           // throw new NotImplementedException();
             user.Name = userName;
             return Task.FromResult(true);
         }
@@ -77,7 +76,6 @@ namespace SD.SelfIdentity
         public override Task SetNormalizedUserNameAsync(AgentModel user, string normalizedName,
             CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
             user.Name = normalizedName;
             return Task.FromResult(true);
         }
@@ -85,7 +83,6 @@ namespace SD.SelfIdentity
         public override Task SetPasswordHashAsync(AgentModel user, string passwordHash,
             CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
             user.Password = passwordHash;
             return Task.FromResult(true);
         }

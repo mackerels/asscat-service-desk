@@ -29,7 +29,7 @@ namespace Test
         }
 
         [Test]
-        public void agent_should_be_possible_to_add_and_delete()
+        public void it_should_be_possible_to_add_and_delete_agent()
         {
             string agentName = Guid.NewGuid().ToString();
             int count = _storage.Agents.Count();
