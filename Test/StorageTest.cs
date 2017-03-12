@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using Storage;
+using Storage.Configuration;
 using Storage.Models;
 
 namespace Test
@@ -13,7 +14,7 @@ namespace Test
 
         public StorageTest()
         {
-            const string normalConnString = "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=1234;SslMode=None;";
+            var normalConnString = Configurator.Config["constr"];
             const string ciConnString = "Server=localhost;Port=3306;Uid=ubuntu;Database=2x2CRM;SslMode=None;";
             _storage = new DescStorage(
                 Environment.GetEnvironmentVariable("CI") == "true" ? ciConnString : normalConnString
