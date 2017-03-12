@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dapper;
 using MySql.Data.MySqlClient;
 using Storage.Models;
@@ -34,7 +35,42 @@ namespace Storage
             }
         }
 
+        public AgentModel FindByIdAsync(int id)
+        {
+            const string sql = @"select Id, Name, Login, Password, CompanyId
+                                 from agent
+                                 where Id = @AgId;";
+            return _connection.Query<AgentModel>(sql, new {AgId = id}).FirstOrDefault();
+        }
+
+        public AgentModel AddOrUpdateAgent(AgentModel agent)
+        {
+            const string sql = @"insert into agent(Name, CompanyId, Login, Password)
+                                    select @Name, @CompanyId, @Login, @Password
+                                on duplicate key 
+                                    update Name = @Name, CompanyId = @CompanyId, Login  = @Login, Password = @Password;
+                                select LAST_INSERT_ID();";
+            var newId = _connection.Query<int>(sql, new {Name = agent.Name, CompanyId = agent.CompanyId, Login = agent.Login, Password = agent.Password }).Single();
+            agent.Id = newId;
+            agent.Company = Company(agent.CompanyId);
+            return agent;
+        }
+
+        public AgentModel DeleteAgent(AgentModel agent)
+        {
+            const string sql = @"DELETE FROM agent WHERE Id=@id;";
+            _connection.Query(sql, new {id = agent.Id});
+            return agent;
+        }
+
         public IEnumerable<CompanyModel> Companies => _connection.Query<CompanyModel>("select Id, Name from company");
+
+        public CompanyModel Company(int id)
+        {
+            const string sql = @"select Id, Name from company where Id = @CompanyId;";
+            return _connection.Query<CompanyModel>(sql, new { CompanyId = id }).FirstOrDefault();
+        }
+
 
         public IEnumerable<IssueModel> Issues
         {

@@ -41,7 +41,7 @@ namespace SD
             services.AddTransient<IProfileService, ProfileService>();
 
             var storage = new DescStorage(
-                "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=123;SslMode=None;"
+                "Server=localhost;Port=3306;Database=2x2CRM;Uid=root;Pwd=1234;SslMode=None;"
             );
 
             var userStore = new CrmAgentStore(storage);
