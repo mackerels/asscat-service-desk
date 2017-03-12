@@ -8,6 +8,7 @@ dependencies:
         - sudo apt-get update
         - sudo apt-get install dotnet-dev-1.0.0-preview2.1-00317
         - dotnet restore
+        - echo '{ "constr" : "Server=localhost;Port=3306;Uid=ubuntu;Database=2x2CRM;SslMode=None;" }' > Storage/config.json
 test:
     override:
         - cd Test && dotnet test
