@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using MySql.Data.MySqlClient;
@@ -50,18 +51,34 @@ namespace Storage
                                 on duplicate key 
                                     update Name = @Name, CompanyId = @CompanyId, Login  = @Login, Password = @Password;
                                 select LAST_INSERT_ID();";
-            var newId = _connection.Query<int>(sql, new {Name = agent.Name, CompanyId = agent.CompanyId, Login = agent.Login, Password = agent.Password }).Single();
-            agent.Id = newId;
-            agent.Company = Company(agent.CompanyId);
-            return agent;
+            try
+            {
+                var newId = _connection.Query<int>(sql, new { Name = agent.Name, CompanyId = agent.CompanyId, Login = agent.Login, Password = agent.Password }).Single();
+                agent.Id = newId;
+                agent.Company = Company(agent.CompanyId);
+                return agent;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
         }
 
         public AgentModel DeleteAgent(AgentModel agent)
         {
             const string sql = @"DELETE FROM agent WHERE Id=@id;";
-            _connection.Query(sql, new {id = agent.Id});
-            return agent;
-        }
+
+            try
+            {
+                _connection.Query(sql, new {id = agent.Id});
+                return agent;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+         }
 
         public IEnumerable<CompanyModel> Companies => _connection.Query<CompanyModel>("select Id, Name from company");
 
